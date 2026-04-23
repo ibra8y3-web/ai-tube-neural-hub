@@ -1,29 +1,52 @@
-# Aether Vision Platform
+# ⚡ Aether Core (Neural Hub)
 
-Aether Vision is an advanced, AI-powered platform designed to streamline the creation of professional digital assets. By leveraging a high-performance, self-managing AI engine, Aether Vision automates the selection, testing, and deployment of the best available AI models for various tasks, including text generation, coding, and image creation.
+Aether Core is an enterprise-grade, decentralized AI operations platform that serves as a single neural hub for engineering, design, and automation. It dynamically orchestrates the most powerful large language models and integrates a complete digital factory into your workflow.
 
-## Core Features
+## 🌟 Core Superpowers
 
-- **Autonomous Model Management:** The system continuously synchronizes, tests, and selects the optimal AI models from leading platforms (Groq, OpenRouter, Hugging Face, Comet) without manual intervention.
-- **Dynamic Fallback Mechanism:** In the event of a model failure, the system automatically switches to the next best available model in real-time, ensuring uninterrupted service.
-- **Intelligent Image Generation:** Powered by the Flux engine via Pollinations, Aether Vision generates high-quality, professional-grade visual assets, logos, and UI designs.
-- **Seamless Integration:** Built on a robust PostgreSQL backend (Supabase), the platform acts as a smart orchestrator for all AI-driven workflows.
+- **🧠 Neural Routing:** Auto-selects the optimal AI model (Groq, OpenRouter, Hugging Face, Comet) based on latency, context complexity, and task requirements.
+- **📱 Omni-Channel Gateway:** Full Telegram Bot integration. Control your server, deploy code, generate resources, and chat with your AI architecture directly from Telegram.
+- **🏭 The Application Factory:** Go from idea to fully-fledged brand identity, architecture plan, and code logic instantly.
+- **🎨 Creative & Vision Labs:** Produce professional UI/UX insights, 3D object descriptions, viral content, neuro-marketing analytics, and logos.
+- **⚙️ Engineering & DevOps:** Reverse-engineer codebases, auto-generate SDKs, transpile logic (Swift, Rust, etc.), and build CI/CD pipelines autonomously.
+- **🛡️ Secure & Self-Healing:** Fallback mechanisms ensure 99.9% uptime for AI requests. If a model goes down, the hub seamlessly shifts to the next best provider.
 
-## Technical Architecture
+## 🚀 Technical Architecture
 
-- **Backend:** Node.js with Express, utilizing a dynamic AI service orchestration layer.
-- **Frontend:** React with Vite, styled using Tailwind CSS for a modern, responsive interface.
-- **AI Integration:** Automated API orchestration across multiple providers with built-in error handling and model fallback logic.
-- **Database:** Supabase for real-time model management and state persistence.
+- **Frontend:** React 18, Vite, Tailwind CSS, Framer Motion (for fluid interactions), and Lucide Icons.
+- **Backend/Full-Stack:** Express.js layered with Vite middleware, exposing scalable `/api` routes.
+- **Integrations:** Telegram Bot API for remote terminal control, Hugging Face / Groq / OpenRouter / Comet / Puter for deep AI infrastructure.
 
-## Getting Started
+## 📦 Installation & Setup
 
-Aether Vision is designed for zero-configuration deployment. The system automatically manages model synchronization and API connectivity upon initialization.
+1. Clone the repository.
+   ```bash
+   git clone https://github.com/ibra8y3-web/ai-tube-neural-hub.git
+   ```
+2. Install dependencies.
+   ```bash
+   npm install
+   ```
+3. Set your environment variables in `.env`:
+   ```env
+   VITE_TELEGRAM_BOT_TOKEN="your_bot_token_here"
+   GROQ_API_KEY="your_groq_key_here"
+   OPENROUTER_API_KEY="your_openrouter_key"
+   HUGGINGFACE_API_KEY="your_huggingface_key"
+   COMET_API_KEY="your_comet_key"
+   # Add any other required API keys
+   ```
+4. Start the server.
+   ```bash
+   npm run dev
+   ```
 
-1. **Environment Setup:** Ensure all required API keys (`GROQ_API_KEY`, `OPENROUTER_API_KEY`, `HUGGINGFACE_API_KEY`, `COMET_API_KEY`, `PUTER_API_KEY`, `GEMINI_API_KEY`) are configured in your environment.
-2. **Execution:** The application initializes the AI orchestration layer and begins background synchronization of available models immediately upon load.
-3. **Usage:** Access the various modules (Vision Lab, Content Lab, etc.) to begin generating assets. The system will automatically select the best models for your requests.
+## 📱 Telegram Integration (Terminal)
 
-## Support & Maintenance
+Aether Core is built to live on your phone. Connect your Telegram Bot in the platform, and the system will actively listen to and process your commands.
+- Send `/menu` to access the neural labs.
+- Reverse-engineer text or code on the go.
 
-Aether Vision is built for high availability. The automated model management system minimizes the need for manual maintenance. For any issues, the system logs detailed errors to the console, which are used to optimize the model selection logic in future updates.
+## 📜 License
+
+Designed and structured for advanced AI orchestrations. All rights reserved.

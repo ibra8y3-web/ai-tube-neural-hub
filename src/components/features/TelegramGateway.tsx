@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { brandApi } from '../../api/brandApi';
 
 export const TelegramGateway = ({ lang }: { lang: 'en' | 'ar' }) => {
-  const [botToken, setBotToken] = useState(import.meta.env.VITE_TELEGRAM_BOT_TOKEN || localStorage.getItem('telegram_bot_token') || '8247992344:AAHUK1O7IqQJyeZ44TOh7v93kgWtb6yA1WU');
+  const [botToken, setBotToken] = useState(import.meta.env.VITE_TELEGRAM_BOT_TOKEN || localStorage.getItem('telegram_bot_token') || '');
   const [isActive, setIsActive] = useState(false);
   const [logs, setLogs] = useState<{ id: number, time: string, message: string, type: 'info' | 'error' | 'success' | 'user' }[]>([
     { id: 1, time: new Date().toLocaleTimeString(), message: 'النظام اللامركزي جاهز. تم تفعيل الربط التلقائي الدائم...', type: 'info' }
