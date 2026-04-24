@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import brandRoutes from "./server/routes/brandRoutes.js";
 import aiRoutes from "./server/routes/aiRoutes.js";
 import tubeRoutes from "./server/routes/tubeRoutes.js";
+import { startTelegramBot } from "./server/services/telegramBot.js";
 
 dotenv.config();
 
@@ -19,6 +20,9 @@ async function startDevServer() {
   app.use("/api", brandRoutes);
   app.use("/api", aiRoutes);
   app.use("/api", tubeRoutes);
+
+  // --- Start Telegram Bot (Background Service) ---
+  startTelegramBot();
 
   console.log("Starting Vite in middleware mode...");
   const vite = await createViteServer({

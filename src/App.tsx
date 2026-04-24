@@ -66,7 +66,13 @@ import {
   Network,
   DollarSign,
   HeartPulse,
-  Leaf
+  Leaf,
+  FileCode,
+  ListChecks,
+  Utensils,
+  Gift,
+  GitBranch,
+  MapPin
 } from "lucide-react";
 import { Toaster, toast } from "sonner";
 import { Drawer } from "vaul";
@@ -105,7 +111,7 @@ import { NeuroUXAuditor, ArchitectureBlueprint, PersonaEngine, DevOpsCatalyst, L
 import { ThreeDLab, DataScienceLab, AcademyLab } from "./components/features/NewLabs";
 import { GameEngineLab, BlockchainLab, HardwareLab, SatelliteLab, QuantumLab, BioTechLab, FinTechVault, RoboticsLab, IoTHubLab, ARVRFactoryLab } from "./components/features/ExtremeLabs";
 import { InboxBrowser } from "./components/ui/InboxBrowser";
-import { DataSingularity, SwarmLab, OmniBridge } from "./components/tubes/NewTubes";
+import { DataSingularity, SwarmLab, OmniBridge, MarketTrends, APIArchitect, RegexMaster, LogAnalyzer, CSSPlayground, GitSuggest, LifePlanner, RecipeAlchemist, GiftFinder, StoryWeaver, TravelBuddy } from "./components/tubes/NewTubes";
 import { TelegramGateway } from "./components/features/TelegramGateway";
 
 interface BrandStrategy {
@@ -269,6 +275,17 @@ export default function App() {
       { id: 'data_singularity', icon: Database, label: lang === 'ar' ? 'ثقب البيانات' : 'Data Singularity', badge: 'SQL', badgeColor: 'bg-purple-500 text-white' },
       { id: 'swarm_lab', icon: Cpu, label: lang === 'ar' ? 'السرب الذكي' : 'Swarm AI', badge: 'MULTI', badgeColor: 'bg-orange-500 text-white' },
       { id: 'omni_bridge', icon: Code, label: lang === 'ar' ? 'ترجمة نيتف' : 'OmniBridge', badge: 'COMPILE', badgeColor: 'bg-cyan-500 text-black' },
+      { id: 'market_trends', icon: TrendingUp, label: lang === 'ar' ? 'بوصلة السوق' : 'Market Trends', badge: 'LIVE', badgeColor: 'bg-emerald-500 text-white' },
+      { id: 'api_architect', icon: FileCode, label: lang === 'ar' ? 'مهندس API' : 'API Architect', badge: 'DEV', badgeColor: 'bg-blue-600 text-white' },
+      { id: 'regex_master', icon: Layers, label: lang === 'ar' ? 'خبير Regex' : 'Regex Master', badge: 'DEV', badgeColor: 'bg-orange-600 text-white' },
+      { id: 'log_analyzer', icon: Activity, label: lang === 'ar' ? 'محلل سجلات' : 'Log Analyzer', badge: 'DEV', badgeColor: 'bg-red-600 text-white' },
+      { id: 'css_playground', icon: Layout, label: lang === 'ar' ? 'محرر CSS' : 'CSS Forge', badge: 'DEV', badgeColor: 'bg-indigo-600 text-white' },
+      { id: 'git_suggest', icon: GitBranch, label: lang === 'ar' ? 'مساعد Git' : 'Git Suggest', badge: 'DEV', badgeColor: 'bg-orange-500 text-black' },
+      { id: 'life_planner', icon: ListChecks, label: lang === 'ar' ? 'مخطط حياة' : 'Life Planner', badge: 'USER', badgeColor: 'bg-pink-500 text-white' },
+      { id: 'recipe_alchemist', icon: Utensils, label: lang === 'ar' ? 'خيميائي وصفات' : 'Recipes', badge: 'USER', badgeColor: 'bg-amber-500 text-black' },
+      { id: 'gift_finder', icon: Gift, label: lang === 'ar' ? 'مستشار هدايا' : 'Gift Finder', badge: 'USER', badgeColor: 'bg-emerald-500 text-white' },
+      { id: 'story_weaver', icon: BookOpen, label: lang === 'ar' ? 'ناسج قصص' : 'Story AI', badge: 'USER', badgeColor: 'bg-indigo-500 text-white' },
+      { id: 'travel_buddy', icon: MapPin, label: lang === 'ar' ? 'رفيق سفر' : 'Travel Buddy', badge: 'USER', badgeColor: 'bg-sky-500 text-white' },
     ],
     engineering: [
       { id: 'code', icon: Code, label: lang === 'ar' ? 'محرر' : 'Editor' },
@@ -1686,6 +1703,17 @@ export default function App() {
                 {activeSettingsTab === 'data_singularity' && <DataSingularity lang={lang} />}
                 {activeSettingsTab === 'swarm_lab' && <SwarmLab lang={lang} />}
                 {activeSettingsTab === 'omni_bridge' && <OmniBridge lang={lang} />}
+                {activeSettingsTab === 'market_trends' && <MarketTrends lang={lang} />}
+                {activeSettingsTab === 'api_architect' && <APIArchitect lang={lang} />}
+                {activeSettingsTab === 'regex_master' && <RegexMaster lang={lang} />}
+                {activeSettingsTab === 'log_analyzer' && <LogAnalyzer lang={lang} />}
+                {activeSettingsTab === 'css_playground' && <CSSPlayground lang={lang} />}
+                {activeSettingsTab === 'git_suggest' && <GitSuggest lang={lang} />}
+                {activeSettingsTab === 'life_planner' && <LifePlanner lang={lang} />}
+                {activeSettingsTab === 'recipe_alchemist' && <RecipeAlchemist lang={lang} />}
+                {activeSettingsTab === 'gift_finder' && <GiftFinder lang={lang} />}
+                {activeSettingsTab === 'story_weaver' && <StoryWeaver lang={lang} />}
+                {activeSettingsTab === 'travel_buddy' && <TravelBuddy lang={lang} />}
                 {activeSettingsTab === 'project_decoder' && <ProjectDecoder lang={lang} />}
                 {activeSettingsTab === 'preview_dashboard' && <AdvancedPreviewDashboard lang={lang} />}
                 {activeSettingsTab === 'memory_engine' && <MemoryEngine lang={lang} />}

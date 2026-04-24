@@ -141,14 +141,6 @@ router.post("/generate-montage", async (req, res) => {
 });
 
 // Music Lab generator
-router.post("/generate-music", async (req, res) => {
-  const { audioPrompt } = req.body;
-  try {
-    const audioUrl = await aiService.generateMusic(audioPrompt);
-    res.json({ success: true, audioUrl, description: `Generated audio for: ${audioPrompt}` });
-  } catch (error: any) {
-    res.status(500).json({ error: error.message || "Failed to generate music." });
-  }
-});
+// (Moved to aiRoutes.ts for consolidation)
 
 export default router;

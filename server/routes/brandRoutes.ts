@@ -128,6 +128,26 @@ router.get("/recent-projects", async (req, res) => {
   }
 });
 
+router.post("/generate-music", async (req, res) => {
+  const { audioPrompt } = req.body;
+  try {
+    const audioUrl = await aiService.generateMusic(audioPrompt);
+    res.json({ success: true, audioUrl, description: `Generated audio for: ${audioPrompt}` });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Failed to generate music." });
+  }
+});
+
+router.post("/analyze-market", async (req, res) => {
+  const { industry, region } = req.body;
+  try {
+    const marketData = await aiService.analyzeMarket(industry, region);
+    res.json(marketData);
+  } catch (error: any) {
+    res.status(500).json({ error: "Failed to analyze market" });
+  }
+});
+
 router.post("/add-model", async (req, res) => {
   const { name, provider, apiUrl, tokenization, agentType } = req.body;
   try {

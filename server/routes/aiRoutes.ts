@@ -94,6 +94,7 @@ router.post("/update-models", async (req, res) => {
       if (m.name.toLowerCase().includes("vision") || m.name.toLowerCase().includes("image")) agent_type = "vision";
       if (m.name.toLowerCase().includes("code") || m.name.toLowerCase().includes("coder")) agent_type = "coding";
       if (m.name.toLowerCase().includes("sentiment")) agent_type = "market";
+      if (m.name.toLowerCase().includes("speech") || m.name.toLowerCase().includes("voice")) agent_type = "voice";
       return { ...m, agent_type };
     });
 
@@ -149,7 +150,8 @@ router.post("/update-models", async (req, res) => {
     // Add Gemini models explicitly to the sync list
     const geminiModels = [
       { name: "gemini-1.5-flash", provider: "Gemini", agent_type: "general", is_active: true, is_verified: true, likes: 1500, api_url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent" },
-      { name: "gemini-1.5-pro", provider: "Gemini", agent_type: "coding", is_active: true, is_verified: true, likes: 1400, api_url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent" }
+      { name: "gemini-1.5-pro", provider: "Gemini", agent_type: "coding", is_active: true, is_verified: true, likes: 1400, api_url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent" },
+      { name: "gemini-2.5-flash-preview-tts", provider: "Gemini", agent_type: "voice", is_active: true, is_verified: true, likes: 2000, api_url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent" }
     ];
     
     const finalModelsToSync = [...allModels, ...geminiModels];
@@ -271,13 +273,23 @@ router.post("/optimize-seo", async (req, res) => {
   }
 });
 
-router.post("/analyze-market", async (req, res) => {
-  const { industry, region } = req.body;
+// Moved to brandRoutes.ts
+// router.post("/analyze-market", async (req, res) => {
+// ...
+// });
+
+// Moved to brandRoutes.ts
+// router.post("/generate-music", async (req, res) => {
+// ...
+// });
+
+router.post("/generate-voice", async (req, res) => {
+  const { text, voice, style } = req.body;
   try {
-    const marketData = await aiService.analyzeMarket(industry, region);
-    res.json(marketData);
+    const audioUrl = await aiService.generateVoice(text, voice, style);
+    res.json({ success: true, audioUrl });
   } catch (error: any) {
-    res.status(500).json({ error: "Failed to analyze market" });
+    res.status(500).json({ error: error.message || "Failed to generate voice." });
   }
 });
 

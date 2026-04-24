@@ -1,6 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import { getSupabase } from "../config/supabase.js";
+import { GoogleGenAI } from "@google/genai";
 
 dotenv.config();
 
@@ -221,6 +222,7 @@ export const getBestModelForTask = async (taskType: string, excludeIds: string[]
     // Task-specific boosts
     if (taskType === "coding" && (name.includes("coder") || name.includes("r1") || name.includes("qwen") || name.includes("claude"))) score += 500;
     if (taskType === "vision" && (name.includes("vision") || name.includes("vl") || name.includes("pixtral"))) score += 500;
+    if (taskType === "voice" && (name.includes("tts") || name.includes("voice") || name.includes("speech"))) score += 500;
 
     // Likes boost
     score += (m.likes || 0) / 10;
@@ -627,6 +629,103 @@ export const generateMusic = async (prompt: string): Promise<string> => {
     return `data:audio/flac;base64,${base64}`;
   } catch (error: any) {
     console.error("Music generation failed:", error.message);
+    // Fallback to static audio
+    return "https://actions.google.com/sounds/v1/science_fiction/sci_fi_computer_processing_2.ogg";
+  }
+};
+
+const addWavHeader = (pcmData: Buffer, sampleRate: number) => {
+  const header = Buffer.alloc(44);
+
+  header.write('RIFF', 0);
+  header.writeUInt32LE(36 + pcmData.length, 4);
+  header.write('WAVE', 8);
+  header.write('fmt ', 12);
+  header.writeUInt32LE(16, 16);
+  header.writeUInt16LE(1, 20); // Type: PCM
+  header.writeUInt16LE(1, 22); // Channels: Mono
+  header.writeUInt32LE(sampleRate, 24);
+  header.writeUInt32LE(sampleRate * 2, 28); // Byte rate
+  header.writeUInt16LE(2, 32); // Block align
+  header.writeUInt16LE(16, 34); // Bits per sample
+  header.write('data', 36);
+  header.writeUInt32LE(pcmData.length, 40);
+
+  return Buffer.concat([header, pcmData]);
+};
+
+export const generateVoice = async (text: string, voice: string = "Kore", style: string = "cheerful"): Promise<string> => {
+  try {
+    const bestModel = await getBestModelForTask("voice");
+    const isGemini = bestModel.provider.toLowerCase().includes("gemini");
+    const isHF = bestModel.provider.toLowerCase().includes("hugging");
+
+    // 1. Refine text
+    const refinementPrompt = `
+      Refine the following text to be more professional, engaging, and suitable for a ${style} voiceover. 
+      Keep it concise and clear. 
+      If the text is in Arabic, keep it in Arabic.
+      Text: "${text}"
+      Return ONLY the refined text.
+    `;
+    const refinedText = await generateChatResponse(refinementPrompt, 'general');
+
+    if (isGemini) {
+      // 2. Map style to instruction
+      const styleInstructions: Record<string, string> = {
+        cheerful: "Say cheerfully",
+        horror: "Say in a scary, whispering horror tone",
+        deep: "Say in a very deep, authoritative voice",
+        singing: "Sing this text like a professional singer",
+        whisper: "Whisper this text very quietly and softly",
+        news: "Say this text in a formal breaking news anchor voice",
+        asmr: "Say this in an ASMR style with close microphone effect and soft breathy tone",
+        sad: "Say this text in a very sad, emotional, and crying tone",
+        professional: "Say this text in a clear, professional, and corporate voice"
+      };
+      const styleInstruction = styleInstructions[style] || styleInstructions.cheerful;
+
+      // 3. Generate audio using Gemini SDK
+      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+      const response = await (ai as any).models.generateContent({
+        model: bestModel.name || "gemini-2.5-flash-preview-tts",
+        contents: [{ parts: [{ text: `${styleInstruction}: ${refinedText}` }] }],
+        config: {
+          responseModalities: ["AUDIO"],
+          speechConfig: {
+            voiceConfig: {
+              prebuiltVoiceConfig: { voiceName: voice },
+            },
+          },
+        },
+      });
+
+      const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+      if (base64Audio) {
+        const pcmBuffer = Buffer.from(base64Audio, 'base64');
+        const wavBuffer = addWavHeader(pcmBuffer, 24000);
+        return `data:audio/wav;base64,${wavBuffer.toString('base64')}`;
+      }
+    } else if (isHF) {
+      const response = await axios.post(
+        bestModel.api_url || `https://router.huggingface.co/hf-inference/models/${bestModel.name}`,
+        { inputs: refinedText },
+        {
+          headers: {
+            Authorization: `Bearer ${HUGGINGFACE_API_KEY}`,
+            "Content-Type": "application/json"
+          },
+          responseType: "arraybuffer",
+          timeout: 25000
+        }
+      );
+      const base64 = Buffer.from(response.data).toString("base64");
+      return `data:audio/wav;base64,${base64}`;
+    }
+
+    throw new Error("No compatible voice model found or audio generation failed");
+  } catch (error: any) {
+    console.error("Voice generation failed:", error.message);
     // Fallback to static audio
     return "https://actions.google.com/sounds/v1/science_fiction/sci_fi_computer_processing_2.ogg";
   }
